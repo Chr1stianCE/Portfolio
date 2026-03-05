@@ -1,0 +1,523 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - Mes Stages</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            /* Suppression du style personnalisé pour utiliser le fond animé global */
+            width: 100%;
+            box-sizing: border-box;
+            /* Fermeture du bloc style corrigée */
+            .dropdown-content {
+                min-width: 140px;
+                position: static;
+                box-shadow: none;
+                border-radius: 0;
+                background: rgba(15,32,39,0.97);
+            }
+            .dropdown:hover .dropdown-content, .dropdown:focus-within .dropdown-content {
+                display: block;
+            }
+        /* Fermeture du bloc style corrigée */
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 1.3rem;
+            }
+            .container {
+                padding: 70px 2px 0 2px;
+            }
+            nav > a, nav > .dropdown {
+                padding: 10px 6px;
+                font-size: 0.95rem;
+            }
+            .dropdown-content a {
+                padding: 10px 8px;
+                font-size: 0.95rem;
+            }
+        }
+        nav a, .dropdown {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #00ff00;
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0,255,0,0.15);
+            display: inline-block;
+            position: relative;
+            box-shadow: 0 1px 4px rgba(0,255,0,0.05);
+        }
+        nav a:hover, .dropdown:hover {
+            background-color: #00ff00;
+            color: #111;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.15);
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 110px 16px 0 16px;
+        }
+        .section-title {
+            color: #00ff00;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .section-desc {
+            color: #eee;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .timeline {
+            position: relative;
+            margin: 40px 0 60px 0;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #00ff00 0%, transparent 100%);
+            border-radius: 2px;
+        }
+        .stage-card {
+            background: rgba(0,255,0,0.04);
+            border: 1.5px solid #00ff00;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            padding: 28px 32px 24px 48px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+            transition: box-shadow 0.3s;
+        }
+        .stage-card:hover {
+            box-shadow: 0 4px 24px rgba(0,255,0,0.15);
+        }
+        .stage-dot {
+            position: absolute;
+            left: -10px;
+            top: 32px;
+            width: 22px;
+            height: 22px;
+            background: #00ff00;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #00ff00;
+            border: 3px solid #222;
+        }
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+        .stage-company {
+            color: #00ff00;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .stage-dates {
+            color: #aaa;
+            font-size: 1.05rem;
+        }
+        .stage-position {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .stage-location {
+            color: #00ff00;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+        .stage-description {
+            color: #eee;
+            margin-bottom: 8px;
+        }
+        .stage-skills {
+            color: #00ff00;
+            font-size: 1.05rem;
+        }
+        .stage-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+        }
+        .stage-actions button {
+            background: rgba(0,255,0,0.13);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            border-radius: 6px;
+            padding: 7px 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .stage-actions button:hover {
+            background: #00ff00;
+            color: #222;
+        }
+        .add-stage-form {
+            background: rgba(0,0,0,0.7);
+            border: 1.5px solid #00ff00;
+            border-radius: 12px;
+            padding: 32px 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .add-stage-form input, .add-stage-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 14px;
+            border-radius: 6px;
+            border: 1px solid #00ff00;
+            background: #181c1f;
+            color: #fff;
+            font-size: 1rem;
+            font-family: 'Roboto', Arial, sans-serif;
+            transition: border 0.2s;
+        }
+        .add-stage-form input:focus, .add-stage-form textarea:focus {
+            outline: none;
+            border: 1.5px solid #00ff00;
+        }
+        .add-stage-form .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .add-stage-form button {
+            background: #00ff00;
+            color: #222;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 22px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-stage-form button:hover {
+            background: #fff;
+            color: #00ff00;
+        }
+        .gallery-section {
+            background: rgba(0,0,0,0.7);
+            border: 1.5px solid #00ff00;
+            border-radius: 12px;
+            padding: 32px 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .gallery-title {
+            color: #00ff00;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 18px;
+        }
+        .image-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #00ff00;
+            background: #181c1f;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+        }
+        .image-item img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+        .image-item .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255,0,0,0.8);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 12px;
+            font-size: 0.95em;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .image-item:hover .delete-btn {
+            opacity: 1;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 80px 4px 0 4px;
+            }
+            .add-stage-form, .gallery-section {
+                padding: 18px 4px;
+            }
+            .stage-card {
+                padding: 18px 8px 18px 28px;
+            }
+            .timeline::before {
+                left: 6px;
+            }
+            .stage-dot {
+                left: -18px;
+            }
+        }
+        footer {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            color: #fff;
+            text-align: center;
+            padding: 28px 0 18px 0;
+            font-size: 1.1rem;
+            border-top: 2px solid #00ff00;
+            box-shadow: 0 -2px 8px rgba(0,255,0,0.08);
+        }
+    </style>
+</head>
+<body>
+            <style>
+                body { padding-top: 110px !important; }
+            </style>
+        <div class="animated-circles"></div>
+        <script>
+        // Animation bulles pour l'arrière-plan
+        const bg = document.querySelector('.animated-circles');
+        if(bg) {
+            for(let i=0;i<18;i++) {
+                const s = document.createElement('span');
+                const size = Math.random()*80+40;
+                s.style.width = s.style.height = size+"px";
+                s.style.left = Math.random()*100+"vw";
+                s.style.bottom = (-Math.random()*40)+"vh";
+                s.style.animationDelay = (Math.random()*12)+"s";
+                s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                bg.appendChild(s);
+            }
+        }
+        </script>
+    <div class="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div id="particles"></div>
+    <div class="animated-circles"></div>
+    <script>
+    // Génère des cercles animés pour l'arrière-plan
+    const bg1 = document.querySelector('.animated-circles');
+    if(bg) {
+        for(let i=0;i<18;i++) {
+            const s = document.createElement('span');
+            const size = Math.random()*80+40;
+            s.style.width = s.style.height = size+"px";
+            s.style.left = Math.random()*100+"vw";
+            s.style.bottom = (-Math.random()*40)+"vh";
+            s.style.animationDelay = (Math.random()*12)+"s";
+            s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+            bg.appendChild(s);
+        }
+    }
+    </script>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+    <div id="particles"></div>
+    <div class="animated-circles"></div>
+    <div id="particles"></div>
+    <div class="animated-circles"></div>
+    <main>
+        <h1 class="section-title" id="stages">🏆 Mes stages</h1>
+        <div class="section-desc">
+            Découvrez mes expériences professionnelles, issues de mon CV et de mon parcours actuel.<br>
+            <span style="color:#00ff00">Mon stage actuel : janvier 2026 - 1er avril 2026</span>
+        </div>
+        <section id="missions">
+            <h2 class="gallery-title">📋 Mes Expériences de Stage</h2>
+            <div class="timeline">
+                    <!-- Stage 1: Stage actuel -->
+                    <div class="stage-card">
+                        <div class="stage-dot"></div>
+                        <div class="stage-header">
+                            <div class="stage-company">Entreprise spécialisée en sécurité électronique et réseaux</div>
+                            <div class="stage-dates">janvier 2026 - 1er avril 2026</div>
+                        </div>
+                        <div class="stage-position">Stage de première année – Brevet de Technicien Supérieur Services Informatiques aux Organisations (BTS SIO) – Option Solutions d’Infrastructure, Systèmes et Réseaux (SISR)</div>
+                        <div class="stage-location"><i class='fas fa-map-marker-alt'></i> Marseille, France</div>
+                        <div class="stage-description">
+                            Dans le cadre de ma première année de BTS SIO option SISR, j’ai effectué un stage au sein d’une entreprise spécialisée dans l’installation et la maintenance de systèmes de sécurité électronique et d’infrastructures réseaux.<br><br>
+                            Au cours de ce stage, j’ai participé à l’installation et à la configuration de systèmes de vidéosurveillance, notamment la mise en place de caméras IP, de stockeurs vidéo (NVR/DVR) et de différents équipements réseau associés (switchs, câblage RJ45, baies de brassage).<br><br>
+                            <b>Missions principales :</b>
+                            <ul style="margin-top:8px;margin-bottom:8px;">
+                                <li>Installation et fixation de caméras de surveillance</li>
+                                <li>Configuration des enregistreurs vidéo (adressage IP, paramétrage réseau, accès distant)</li>
+                                <li>Mise en place et test du câblage réseau</li>
+                                <li>Configuration de switchs et vérification de la connectivité</li>
+                                <li>Assistance à la maintenance et au dépannage des systèmes installés</li>
+                                <li>Tests de bon fonctionnement et validation avec le client</li>
+                            </ul>
+                            Ce stage m’a permis de développer des compétences techniques en réseaux (adressage IP, configuration d’équipements actifs), en systèmes de sécurité et en diagnostic de pannes. Il m’a également permis d’améliorer mon autonomie, ma rigueur et ma capacité à travailler en équipe sur des interventions terrain.<br><br>
+                            Cette expérience professionnelle a renforcé ma compréhension concrète des infrastructures réseaux et des systèmes déployés en environnement réel, en cohérence avec les compétences attendues en option SISR.
+                        </div>
+                        <div class="stage-skills" id="competences"><i class='fas fa-check-circle'></i> Installation vidéosurveillance, configuration IP, câblage réseau, switchs, maintenance, diagnostic, autonomie, rigueur, travail en équipe</div>
+                        <div class="stage-actions">
+                            <button onclick="showStageModal(0)">Détail</button>
+                        </div>
+                    </div>
+                <!-- Stage 3: Stage CV (exemple) -->
+                <div class="stage-card">
+                    <div class="stage-dot"></div>
+                    <div class="stage-header">
+                        <div class="stage-company">Garage Feu Vert (CV)</div>
+                        <div class="stage-dates">janvier - février 2023</div>
+                    </div>
+                    <div class="stage-position">Employé polyvalent</div>
+                    <div class="stage-location"><i class='fas fa-map-marker-alt'></i> Marseille, France</div>
+                    <div class="stage-description">Rangement des rayons, étiquetage, organisation, collaboration en équipe.</div>
+                    <div class="stage-skills"><i class='fas fa-check-circle'></i> Organisation, travail d'équipe, rigueur</div>
+                    <div class="stage-actions">
+                        <button onclick="showStageModal(2)">Détail</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+    </footer>
+
+    <button class="scroll-to-top" aria-label="Remonter en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <!-- Menu interactif flottant -->
+    <nav class="floating-menu">
+    <script src="assets/portfolio-interact.js"></script>
+        <script>
+        const bg2 = document.querySelector('.animated-circles');
+        if(bg) {
+            for(let i=0;i<18;i++) {
+                const s = document.createElement('span');
+                const size = Math.random()*80+40;
+                s.style.width = s.style.height = size+"px";
+                s.style.left = Math.random()*100+"vw";
+                s.style.bottom = (-Math.random()*40)+"vh";
+                s.style.animationDelay = (Math.random()*12)+"s";
+                s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                bg.appendChild(s);
+            }
+        }
+        </script>
+        <a href="#stages" title="Mes Stages"><i class="fa-solid fa-briefcase"></i></a>
+        <a href="#missions" title="Missions"><i class="fa-solid fa-tasks"></i></a>
+        <a href="#competences" title="Compétences acquises"><i class="fa-solid fa-laptop-code"></i></a>
+    </nav>
+    <script src="assets/portfolio-interact.js"></script>
+    <script>
+// Stages statiques (CV + actuel)
+const stages = [
+    {
+        company: "IFC Marseille",
+        dates: "janvier 2026 - 1er avril 2026",
+        position: "Technicien support et administration",
+        location: "Marseille, France",
+        description: "Support aux utilisateurs, gestion des comptes, administration réseau, documentation, cybersécurité, virtualisation, supervision.",
+        skills: "Windows Server, Active Directory, VLAN, Zabbix, VirtualBox, sécurité, rédaction de procédures"
+    },
+    {
+        company: "Concepteur polyvalent (CV)",
+        dates: "2023 - 2025",
+        position: "Assistant réseau et systèmes",
+        location: "Marseille, France",
+        description: "Participation à la gestion du réseau, support technique, documentation, projets pédagogiques SIO/SISR.",
+        skills: "SIO, SISR, support, administration, documentation, cybersécurité"
+    },
+    {
+        company: "Garage Feu Vert (CV)",
+        dates: "janvier - février 2023",
+        position: "Employé polyvalent",
+        location: "Marseille, France",
+        description: "Rangement des rayons, étiquetage, organisation, collaboration en équipe.",
+        skills: "Organisation, travail d'équipe, rigueur"
+    }
+];
+let stageModal = null;
+function showStageModal(index) {
+    const stage = stages[index];
+    if (!stage) return;
+    if (!stageModal) {
+        stageModal = document.createElement('div');
+        stageModal.id = 'stage-modal';
+        stageModal.style.position = 'fixed';
+        stageModal.style.top = '0';
+        stageModal.style.left = '0';
+        stageModal.style.width = '100vw';
+        stageModal.style.height = '100vh';
+        stageModal.style.background = 'rgba(0,0,0,0.7)';
+        stageModal.style.display = 'flex';
+        stageModal.style.alignItems = 'center';
+        stageModal.style.justifyContent = 'center';
+        stageModal.style.zIndex = '9999';
+        document.body.appendChild(stageModal);
+    }
+    stageModal.innerHTML = `
+        <div style="background: #111; border-radius: 16px; padding: 32px; max-width: 420px; width: 90vw; box-shadow: 0 8px 32px rgba(0,255,0,0.15); position: relative;">
+            <button onclick="closeStageModal()" style="position: absolute; top: 12px; right: 12px; background: rgba(255,0,0,0.7); color: #fff; border: none; border-radius: 4px; padding: 6px 12px; cursor: pointer;">✖</button>
+            <h2 style="color: #00ff00; margin-bottom: 12px;">${stage.company}</h2>
+            <div style="color:#aaa; margin-bottom:8px;">${stage.dates}</div>
+            <div style="color:#fff; font-weight:500; margin-bottom:8px;">${stage.position}</div>
+            <div style="color:#00ff00; margin-bottom:8px;"><i class='fas fa-map-marker-alt'></i> ${stage.location}</div>
+            <div style="color:#eee; margin-bottom:8px;">${stage.description}</div>
+            <div style="color:#00ff00;"><i class='fas fa-check-circle'></i> ${stage.skills}</div>
+        </div>
+    `;
+    stageModal.style.display = 'flex';
+}
+function closeStageModal() {
+    if (stageModal) stageModal.style.display = 'none';
+}
+    </script>
+    </script>
+</body>
+</html>

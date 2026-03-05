@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - Compétences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+    .burger-menu {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 2001;
+        margin-left: 10px;
+    }
+    .burger-menu span {
+        display: block;
+        width: 28px;
+        height: 4px;
+        margin: 4px 0;
+        background: #00ff00;
+        border-radius: 2px;
+        transition: 0.4s;
+    }
+    .burger-menu.open span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    .burger-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger-menu.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    @media (max-width: 900px) {
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(15,32,39,0.98);
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 80px 0 0 0;
+            height: 100vh;
+            width: 100vw;
+            transform: translateX(-100vw);
+            transition: transform 0.4s cubic-bezier(.77,0,.18,1);
+            z-index: 2000;
+        }
+        nav.nav-open {
+            transform: translateX(0);
+        }
+        .burger-menu {
+            display: flex;
+        }
+    }
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1);
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: none;
+    }
+    .scroll-to-top {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        background: #0f2027;
+        color: #00ff00;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        box-shadow: 0 2px 12px rgba(0,255,0,0.13);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 3000;
+    }
+    .scroll-to-top.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    </style>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: float 10s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        header {
+            background: rgba(15,32,39,0.95);
+            padding: 18px 0;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        nav a, .dropdown {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0,255,0,0.15);
+            display: inline-block;
+            position: relative;
+            box-shadow: 0 1px 4px rgba(0,255,0,0.05);
+        }
+        nav a:hover, .dropdown:hover {
+            background-color: rgba(0,255,0,0.12);
+            color: #00ff00;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.15);
+        }
+        .dropdown {
+            cursor: pointer;
+            background: none;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,255,0,0.18);
+            padding: 10px 18px;
+            z-index: 1000;
+            border-radius: 8px;
+            border: 1px solid rgba(0,255,0,0.25);
+            top: calc(100% - 5px);
+            left: 0;
+            margin-top: 0;
+            pointer-events: auto;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            pointer-events: auto;
+        }
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            margin: 3px 0;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(0,255,0,0.18);
+            color: #00ff00;
+            border: 1px solid rgba(0,255,0,0.35);
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 16px 0 16px;
+        }
+        section {
+            padding: 100px 0 40px 0;
+            min-height: 100vh;
+        }
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+        .skill {
+            background: linear-gradient(135deg, rgba(0,255,0,0.04), rgba(0,0,0,0.18));
+            padding: 28px 18px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0,255,0,0.18);
+            box-shadow: 0 2px 12px rgba(0,255,0,0.08);
+            backdrop-filter: blur(5px);
+            transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+        }
+        .skill:hover {
+            border-color: #00ff00;
+            box-shadow: 0 4px 24px rgba(0,255,0,0.18);
+            transform: translateY(-8px);
+        }
+        .skill-icon {
+            font-size: 2.2em;
+            margin-bottom: 12px;
+        }
+        .soft-skills {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            justify-content: center;
+        }
+        .soft-skill {
+            background: rgba(0,255,0,0.08);
+            border: 1px solid rgba(0,255,0,0.18);
+            border-radius: 8px;
+            padding: 16px 22px;
+            color: #00ff00;
+            font-weight: 500;
+            font-size: 1.1em;
+            box-shadow: 0 1px 8px rgba(0,255,0,0.08);
+        }
+        footer {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            color: #fff;
+            text-align: center;
+            padding: 28px 0 18px 0;
+            font-size: 1.1rem;
+            border-top: 2px solid #00ff00;
+            box-shadow: 0 -2px 8px rgba(0,255,0,0.08);
+        }
+        @media (max-width: 900px) {
+            .skills {
+                grid-template-columns: 1fr;
+            }
+            .soft-skills {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        @media (max-width: 600px) {
+            header {
+                padding: 10px 0;
+            }
+            nav a, .dropdown {
+                padding: 8px 10px;
+                font-size: 0.95rem;
+            }
+            .container {
+                padding: 12px 4px 0 4px;
+            }
+            section {
+                padding: 70px 0 20px 0;
+            }
+        }
+    </style>
+        #competences {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        h1, h2 {
+            color: #00ff00;
+        }
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .skill {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s;
+        }
+        .skill:hover {
+            transform: translateY(-5px);
+        }
+        .skill-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+    <body>
+            <div class="animated-circles"></div>
+            <script>
+            // Animation bulles pour l'arrière-plan
+            const bg = document.querySelector('.animated-circles');
+            if(bg) {
+                for(let i=0;i<18;i++) {
+                    const s = document.createElement('span');
+                    const size = Math.random()*80+40;
+                    s.style.width = s.style.height = size+"px";
+                    s.style.left = Math.random()*100+"vw";
+                    s.style.bottom = (-Math.random()*40)+"vh";
+                    s.style.animationDelay = (Math.random()*12)+"s";
+                    s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                    bg.appendChild(s);
+                }
+            }
+            </script>
+        <script>
+        const bg = document.querySelector('.animated-circles');
+        if(bg) {
+            for(let i=0;i<18;i++) {
+                const s = document.createElement('span');
+                const size = Math.random()*80+40;
+                s.style.width = s.style.height = size+"px";
+                s.style.left = Math.random()*100+"vw";
+                s.style.bottom = (-Math.random()*40)+"vh";
+                s.style.animationDelay = (Math.random()*12)+"s";
+                s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                bg.appendChild(s);
+            }
+        }
+        </script>
+        <div id="particles"></div>
+        <div class="animated-circles"></div>
+    <div class="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div id="particles"></div>
+    <div id="particles"></div>
+    <div class="animated-circles"></div>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+
+    <section id="competences" class="container reveal">
+        <h2>Compétences SISR</h2>
+        <p>Technologies et outils maîtrisés dans le domaine des systèmes et réseaux informatiques</p>
+        <div class="skills">
+            <div class="skill">
+                <div class="skill-icon">🔧</div>
+                <h3>Cisco CCNA</h3>
+                <p>Réseaux - Configuration et maintenance</p>
+            </div>
+            <div class="skill">
+                <div class="skill-icon">🛡️</div>
+                <h3>pfSense</h3>
+                <p>Sécurité - Firewall et VPN</p>
+            </div>
+            <div class="skill">
+                <div class="skill-icon">👥</div>
+                <h3>Active Directory</h3>
+                <p>Systèmes - Gestion d'identités</p>
+            </div>
+            <div class="skill">
+                <div class="skill-icon">🖥️</div>
+                <h3>Proxmox</h3>
+                <p>Virtualisation - Hyperviseur open-source</p>
+            </div>
+            <div class="skill">
+                <div class="skill-icon">💻</div>
+                <h3>Linux/Windows</h3>
+                <p>OS - Administration système</p>
+            </div>
+            <div class="skill">
+                <div class="skill-icon">🌐</div>
+                <h3>VLANs</h3>
+                <p>Réseaux - Segmentation réseau</p>
+            </div>
+        </div>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>

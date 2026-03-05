@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - Mes Procédures</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body { background: #181a1b; color: #fff; font-family: 'Inter', Arial, sans-serif; margin: 0; padding-top: 110px; }
+        .header-proc { text-align: center; margin-top: 40px; margin-bottom: 24px; }
+        .header-proc h1 { font-size: 2.2em; color: #00ff00; margin-bottom: 8px; }
+        .header-proc p { color: #b6ffb6; font-size: 1.1em; }
+        .filters-proc { display: flex; justify-content: center; gap: 18px; margin-bottom: 32px; flex-wrap: wrap; }
+        .filters-proc select, .filters-proc input { padding: 10px; border-radius: 6px; border: 1px solid #00ff00; background: #222; color: #00ff00; font-size: 1em; }
+        .grid-proc { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin-bottom: 40px; }
+        .card-proc { background: linear-gradient(135deg, #232526 0%, #0f2027 100%); border: 2px solid #00ff00; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,255,0,0.08); padding: 28px 22px; color: #fff; display: flex; flex-direction: column; gap: 18px; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; position: relative; }
+        .card-proc:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 8px 32px rgba(0,255,0,0.18); }
+        .card-proc h3 { color: #00ff00; font-size: 1.3em; margin: 0; display: flex; align-items: center; gap: 10px; }
+        .card-proc .category { background: rgba(0,255,0,0.12); color: #00ff00; border-radius: 20px; padding: 6px 18px; font-size: 0.95em; border: 1px solid rgba(0,255,0,0.18); display: inline-block; }
+        .card-proc .preview { font-family: 'Courier New', monospace; color: #b6ffb6; background: rgba(0,0,0,0.18); border-left: 4px solid #00ff00; padding: 12px; border-radius: 6px; font-size: 0.95em; max-height: 120px; overflow-y: auto; }
+        .card-proc .actions { display: flex; gap: 12px; margin-top: 8px; }
+        .card-proc .actions button { background: #00ff00; color: #222; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+        .card-proc .actions button:hover { background: #222; color: #00ff00; }
+        .modal-proc { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 2000; display: none; align-items: center; justify-content: center; }
+        .modal-proc.active { display: flex; }
+        .modal-content-proc { background: #232526; border: 2px solid #00ff00; border-radius: 16px; padding: 36px 28px; max-width: 700px; width: 90vw; color: #fff; box-shadow: 0 8px 32px rgba(0,255,0,0.18); position: relative; }
+        .modal-content-proc h2 { color: #00ff00; margin-bottom: 12px; }
+        .modal-content-proc .category { background: rgba(0,255,0,0.12); color: #00ff00; border-radius: 20px; padding: 6px 18px; font-size: 0.95em; border: 1px solid rgba(0,255,0,0.18); display: inline-block; margin-bottom: 18px; }
+        .modal-content-proc .full-content { font-family: 'Courier New', monospace; color: #b6ffb6; background: rgba(0,0,0,0.18); border-left: 4px solid #00ff00; padding: 18px; border-radius: 6px; font-size: 1em; margin-bottom: 18px; white-space: pre-wrap; }
+        .modal-content-proc .images { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 18px; }
+        .modal-content-proc .images img { border-radius: 8px; border: 2px solid #00ff00; width: 180px; height: 120px; object-fit: cover; cursor: pointer; transition: box-shadow 0.2s; }
+        .modal-content-proc .images img:hover { box-shadow: 0 0 18px #00ff00; }
+        .modal-content-proc .modal-actions { display: flex; gap: 12px; margin-top: 12px; }
+        .modal-content-proc .modal-actions button { background: #00ff00; color: #222; border: none; border-radius: 6px; padding: 8px 18px; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+        .modal-content-proc .modal-actions button:hover { background: #222; color: #00ff00; }
+        .modal-content-proc .close-btn { position: absolute; top: 18px; right: 18px; background: rgba(255,0,0,0.7); color: #fff; border: none; border-radius: 6px; padding: 8px 18px; font-size: 1.1em; cursor: pointer; }
+        .modal-content-proc .close-btn:hover { background: rgba(255,0,0,1); }
+        @media (max-width: 700px) { .grid-proc { grid-template-columns: 1fr; } .modal-content-proc { padding: 16px 6px; } }
+    </style>
+</head>
+<body>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+    <div class="animated-circles"></div>
+    <script>
+    // Animation bulles pour l'arrière-plan
+    const bg = document.querySelector('.animated-circles');
+    if(bg) {
+        for(let i=0;i<18;i++) {
+            const s = document.createElement('span');
+            const size = Math.random()*80+40;
+            s.style.width = s.style.height = size+"px";
+            s.style.left = Math.random()*100+"vw";
+            s.style.bottom = (-Math.random()*40)+"vh";
+            s.style.animationDelay = (Math.random()*12)+"s";
+            s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+            bg.appendChild(s);
+        }
+    }
+    </script>
+    <div class="header-proc">
+        <h1>📋 Mes Procédures Techniques</h1>
+        <p>Retrouvez toutes les procédures techniques documentées.<br>Filtrez, explorez, visualisez et téléchargez facilement chaque procédure.</p>
+    </div>
+    <div class="filters-proc">
+        <select id="filterCategory">
+            <option value="">Toutes catégories</option>
+        </select>
+        <input type="text" id="filterSearch" placeholder="Recherche...">
+    </div>
+    <div class="grid-proc" id="procedureGrid"></div>
+    <div class="modal-proc" id="procedureModal">
+        <div class="modal-content-proc">
+            <button class="close-btn" onclick="closeProcedureModal()">✕ Fermer</button>
+            <h2 id="modalTitle"></h2>
+            <span class="category" id="modalCategory"></span>
+            <div class="full-content" id="modalContent"></div>
+            <div class="images" id="modalImages"></div>
+            <div class="modal-actions">
+                <button onclick="downloadModalTxt()">📥 Télécharger TXT</button>
+                <button onclick="printModalProcedure()">🖨️ Imprimer</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    // Données des procédures
+    const procedures = [
+        {
+            title: "Ajout d'une machine client dans un domaine",
+            content: "PROCEDURE\nAJOUT D'UNE MACHINE CLIENT DANS UN DOMAINE\n\n1. Rendez-vous dans les « paramètre » de votre machine client, puis « A propos de votre pc », et cliquer sur « Domaine ou groupe de travail »\n\n2. Après l'ouverture de cette fenêtre cliquer sur « modifier »\n\n3. Renommer votre machine client, puis ajouter votre machine dans le domaine en question, puis faite « ok »\n\n📌 IMPORTANT: Ne pas mettre de « _ » car cela ne fonctionnera pas, utiliser plutôt « - »\n\n4. Puis connecter vous avec cette méthode\n\n✓ Voilà-vous avez finit l'installation d'une machine client dans un domaine",
+            category: "Système",
+            images: []
+        },
+        {
+            title: "Installation Zabbix",
+            content: "PROCEDURE D'INSTALLATION\nZABBIX\n\nÉTAPES:\n\n1. Choisissez la première méthode d'installation « Graphical Install »\n\n2. Choisissez votre langue et faite « continue »\n\n3. Choisissez votre option graphique, puis faite « suivant »\n\n4. Configurer votre clavier, et faite « suivant »\n\n5. Configurer votre réseau en cochant « non » et faite « continuer »\n\n6. Nommé votre machine puis faite « continuer »\n\n7. Mettre l'adresse IP de votre serveur faite « continuer »\n\n8. Définissez un mot de passe pour le super utilisateur (l'administrateur), puis faite « continuer »\n\n9. Choisissez un nom pour cette utilisateur et faite « continuer »\n\n10. Choisissez l'identifiant pour un utilisateur et faite « suivant »\n\n11. Définissez a nouveau un mot de passe pour cette utilisateur et faite « continuer »\n\n12. Choisir la méthode « assister – utiliser un disque entier » et faite « continuer »\n\n13. Choisissez le stockage ou vous souhaitez l'installer et faite « continuer »\n\n14. Utiliser la méthode débutante et faite « continuer »\n\n15. Faite tout simplement « continuer »",
+            category: "Monitoring",
+            images: []
+        },
+        {
+            title: "Profil Windows",
+            content: "PROCEDURE\nPROFIL WINDOWS\n\nCRÉATION D'UN UTILISATEUR:\n\n1. Saisir « compmgmt »\n\n2. Cliquer sur l'onglet « utilisateurs et groupes »\n\n3. Dans « utilisateurs »:\n   - Écrire le nom d'utilisateurs\n   - Mettre le mot de passe 2x\n   - Cocher uniquement « l'utilisateur ne peut pas changer de mdp » et « le mot de passe n'expire jamais »\n\nCONFIGURATION ADMINISTRATEUR:\n\n4. Double clic gauche sur les profils admins\n\n5. Cliquer sur « membre de »\n\n6. Cliquer sur « ajouter » en bas à gauche\n\n7. Saisir « ADMINISTRATEURS »\n\n8. Cliquer sur appliquer\n\nCONFIGURATION WORKGROUP:\n\n9. Se déconnecter\n\n10. Windows + système\n\n11. Cliquer « domaine ou groupe de travail »\n\n12. Cliquer sur « modifier »\n\n13. Saisir « WORKGROUP » dans groupe de travail\n\n14. Appuyer sur « ok »\n\n15. Se déconnecter",
+            category: "Système",
+            images: []
+        },
+        {
+            title: "Routeur VLAN",
+            content: "PROCEDURE\nROUTEUR VLAN - Configuration Complète\n\n📌 Cette procédure contient 156 étapes détaillées pour configurer les VLANs.\n\nPhase 1 - Préparation (Étapes 1-20):\n- Allumer le PC Admin\n- Vérifier les alimentations\n- Brancher les câbles réseau\n- Réinitialiser routeur et switch\n- Configurer l'IP du PC\n- Accéder à l'interface d'administration\n\nPhase 2 - Configuration Routeur (Étapes 21-47):\n- Configurer les interfaces réseau\n- Configurer les VLAN sur le routeur (VLAN 10, 20, 30)\n- Configurer le DHCP pour chaque VLAN\n- Tester la connectivité\n\nPhase 3 - Configuration Switch (Étapes 48-134):\n- Accéder à l'interface ProSafe plus\n- Configurer les VLAN 802.1q\n- Assigner les ports aux VLANs\n- Configurer le Port PVID\n\nPhase 4 - Configuration Réseau (Étapes 135-156):\n- Configurer l'IP du switch\n- Tester l'accès aux interfaces\n- Configurer les paramètres réseau finaux\n\n✓ Pour les étapes détaillées, consulter la documentation complète",
+            category: "Réseau",
+            images: []
+        },
+        {
+            title: "SRV-W11 (AD1)",
+            content: "PROTOCOL - Windows Server 11 AD1\n\nCette procédure couvre la configuration complète d'un serveur Windows 11 avec:\n- Active Directory (AD)\n- Serveur DNS\n- Serveur DHCP\n- Stratégies de groupe\n\nPHASE 1 - Pré-Installation:\n- Activer le Bureau à distance\n- Désactiver la sécurité renforcée\n- Désactiver IPv6\n- Renommer le serveur\n- Faire la mise à jour Windows Update\n\nPHASE 2 - Installation AD/DNS/DHCP:\n- Ajouter des rôles et fonctionnalités\n- Sélectionner AD DS, DNS, DHCP\n\nPHASE 3 - Configuration du Contrôleur de Domaine:\n- Promouvoir le serveur\n- Ajouter une nouvelle forêt\n- Configurer le domaine (exemple: domaine.local)\n- Définir le mot de passe DSRM\n\nPHASE 4 - Configuration DNS:\n- Créer des zones de recherche\n- Configurer les zones inversées\n\nPHASE 5 - Création d'utilisateurs et groupes:\n- Créer des utilisateurs Active Directory\n- Créer des groupes d'utilisateurs\n\nPHASE 6 - Configuration DHCP:\n- Configurer les étendues DHCP\n- Assigner les plages d'adresses IP\n- Configurer les options (DNS, routeur)\n\nPHASE 7 - Intégration des machines clientes:\n- Joindre le domaine\n- Configurer le DNS client\n\nPHASE 8 - Stratégies de groupe:\n- Créer des objets de stratégie de groupe (GPO)\n- Configurer les paramètres utilisateur\n- Forcer la mise à jour (gpupdate /force)\n\n✓ Configuration complète permettant à tous les postes clients de rejoindre le domaine",
+            category: "Active Directory",
+            images: []
+        }
+    ];
+    // Génère les catégories dynamiquement
+    function fillCategoryFilter() {
+        const cats = [...new Set(procedures.map(p=>p.category))];
+        const sel = document.getElementById('filterCategory');
+        cats.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c;
+            opt.textContent = c;
+            sel.appendChild(opt);
+        });
+    }
+    // Affiche les procédures filtrées
+    function renderProcedureGrid() {
+        const grid = document.getElementById('procedureGrid');
+        const cat = document.getElementById('filterCategory').value;
+        const search = document.getElementById('filterSearch').value.toLowerCase();
+        grid.innerHTML = '';
+        procedures.forEach((p, idx) => {
+            if(cat && p.category !== cat) return;
+            if(search && !p.title.toLowerCase().includes(search) && !p.content.toLowerCase().includes(search)) return;
+            const card = document.createElement('div');
+            card.className = 'card-proc';
+            card.innerHTML = `
+                <h3>📋 ${p.title}</h3>
+                <span class="category">${p.category}</span>
+                <div class="preview">${p.content.substring(0, 180)}...</div>
+                <div class="actions">
+                    <button onclick="openProcedureModal(${idx})">Voir</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+    // Modal
+    let currentModalIdx = -1;
+    function openProcedureModal(idx) {
+        currentModalIdx = idx;
+        const p = procedures[idx];
+        document.getElementById('modalTitle').textContent = p.title;
+        document.getElementById('modalCategory').textContent = p.category;
+        document.getElementById('modalContent').textContent = p.content;
+        const imgDiv = document.getElementById('modalImages');
+        imgDiv.innerHTML = '';
+        if(p.images && p.images.length) {
+            p.images.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                imgDiv.appendChild(img);
+            });
+        }
+        document.getElementById('procedureModal').classList.add('active');
+    }
+    function closeProcedureModal() {
+        document.getElementById('procedureModal').classList.remove('active');
+    }
+    function downloadModalTxt() {
+        if(currentModalIdx < 0) return;
+        const p = procedures[currentModalIdx];
+        const content = `PROCÉDURE TECHNIQUE\nTitre: ${p.title}\nCatégorie: ${p.category}\nDate: ${new Date().toLocaleDateString('fr-FR')}\n\n${p.content}`;
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Procedure_${p.title.replace(/\s+/g, '_')}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+    function printModalProcedure() {
+        if(currentModalIdx < 0) return;
+        const p = procedures[currentModalIdx];
+        const printWindow = window.open('', '', 'width=800,height=600');
+        printWindow.document.write(`
+            <html><head><title>${p.title}</title><style>
+            body { font-family: Arial, sans-serif; margin: 20px; background: #fff; color: #000; }
+            h1 { color: #00aa00; border-bottom: 3px solid #00aa00; padding-bottom: 10px; }
+            .category { background-color: #f0f0f0; padding: 8px 15px; border-radius: 5px; display: inline-block; margin: 10px 0; }
+            .content { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #00aa00; margin: 20px 0; white-space: pre-wrap; font-family: 'Courier New', monospace; }
+            .footer { margin-top: 30px; padding-top: 20px; border-top: 2px solid #ccc; font-size: 0.9em; color: #666; }
+            </style></head><body>
+            <h1>📋 ${p.title}</h1>
+            <div class="category">Catégorie: ${p.category}</div>
+            <div class="content">${p.content}</div>
+            <div class="footer">
+                <p>Procédure générée depuis le portfolio de Christian CAILLAT EVESQUE</p>
+                <p>Date: ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}</p>
+            </div>
+            </body></html>
+        `);
+        printWindow.document.close();
+        setTimeout(() => printWindow.print(), 250);
+    }
+    // Filtres dynamiques
+    document.getElementById('filterCategory').addEventListener('change', renderProcedureGrid);
+    document.getElementById('filterSearch').addEventListener('input', renderProcedureGrid);
+    // Init
+    fillCategoryFilter();
+    renderProcedureGrid();
+    </script>
+    <footer style="text-align:center;color:#b6ffb6;padding:24px 0;font-size:0.95em;">Portfolio Christian CAILLAT EVESQUE &copy; 2026</footer>
+</body>
+</html>
+    <div id="procedure-detail-modal" class="procedure-detail">
+        
+        <div class="procedure-detail-content">
+            <h2 id="detail-title"></h2>
+            <span id="detail-category" class="category"></span>
+            
+            <!-- Contenu textuel -->
+            <div id="detail-content" class="procedure-full-content"></div>
+            
+            <!-- Galerie d'images -->
+            <div id="detail-images-section">
+                <h3>📸 Captures d'écran & Images</h3>
+                 <div id="detail-images"></div>
+            </div>
+            
+            <!-- Boutons d'action -->
+            <div class="bottom-buttons">
+                <button class="read-btn" onclick="downloadProcedureText()">� Télécharger Texte (TXT)</button>
+                <button class="read-btn" onclick="downloadProcedurePDF()">� Télécharger PDF</button>
+                <button class="read-btn" onclick="printProcedure()">🖨️ Imprimer</button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+    </footer>
+
+    <!-- Menu interactif flottant -->
+    <nav class="floating-menu">
+    <script src="assets/portfolio-interact.js"></script>
+        <script>
+        const bg1 = document.querySelector('.animated-circles');
+        if(bg) {
+            for(let i=0;i<18;i++) {
+                const s = document.createElement('span');
+                const size = Math.random()*80+40;
+                s.style.width = s.style.height = size+"px";
+                s.style.left = Math.random()*100+"vw";
+                s.style.bottom = (-Math.random()*40)+"vh";
+                s.style.animationDelay = (Math.random()*12)+"s";
+                s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                bg.appendChild(s);
+            }
+        }
+        </script>
+        <a href="#mes-procedures" title="Mes Procédures"><i class="fa-solid fa-list-check"></i></a>
+        <a href="#categories" title="Catégories"><i class="fa-solid fa-layer-group"></i></a>
+        <a href="#documents" title="Documents"><i class="fa-solid fa-file-alt"></i></a>
+    </nav>
+
+    <script>
+        // Floating code particles
+        const particlesContainer = document.getElementById('particles');
+        const codeSnippets = ['function', 'var', 'if', 'else', 'for', 'while', 'class', 'import', 'export', 'const', 'let', 'async', 'await', 'try', 'catch', '0', '1', 'true', 'false', 'null', 'undefined'];
+
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Procedures data with images (will persist to localStorage if modified)
+        let procedures2 = [
+            {
+                "title": "Ajout d'une machine client dans un domaine",
+                "content": "PROCEDURE\nAJOUT D'UNE MACHINE CLIENT DANS UN DOMAINE\n\n1. Rendez-vous dans les « paramètre » de votre machine client, puis « A propos de votre pc », et cliquer sur « Domaine ou groupe de travail »\n\n2. Après l'ouverture de cette fenêtre cliquer sur « modifier »\n\n3. Renommer votre machine client, puis ajouter votre machine dans le domaine en question, puis faite « ok »\n\n📌 IMPORTANT: Ne pas mettre de « _ » car cela ne fonctionnera pas, utiliser plutôt « - »\n\n4. Puis connecter vous avec cette méthode\n\n✓ Voilà-vous avez finit l'installation d'une machine client dans un domaine",
+                "category": "Système",
+                "images": []
+            },
+            {
+                "title": "Installation Zabbix",
+                "content": "PROCEDURE D'INSTALLATION\nZABBIX\n\nÉTAPES:\n\n1. Choisissez la première méthode d'installation « Graphical Install »\n\n2. Choisissez votre langue et faite « continue »\n\n3. Choisissez votre option graphique, puis faite « suivant »\n\n4. Configurer votre clavier, et faite « suivant »\n\n5. Configurer votre réseau en cochant « non » et faite « continuer »\n\n6. Nommé votre machine puis faite « continuer »\n\n7. Mettre l'adresse IP de votre serveur faite « continuer »\n\n8. Définissez un mot de passe pour le super utilisateur (l'administrateur), puis faite « continuer »\n\n9. Choisissez un nom pour cette utilisateur et faite « continuer »\n\n10. Choisissez l'identifiant pour un utilisateur et faite « suivant »\n\n11. Définissez a nouveau un mot de passe pour cette utilisateur et faite « continuer »\n\n12. Choisir la méthode « assister – utiliser un disque entier » et faite « continuer »\n\n13. Choisissez le stockage ou vous souhaitez l'installer et faite « continuer »\n\n14. Utiliser la méthode débutante et faite « continuer »\n\n15. Faite tout simplement « continuer »",
+                "category": "Monitoring",
+                "images": []
+            },
+            {
+                "title": "Profil Windows",
+                "content": "PROCEDURE\nPROFIL WINDOWS\n\nCRÉATION D'UN UTILISATEUR:\n\n1. Saisir « compmgmt »\n\n2. Cliquer sur l'onglet « utilisateurs et groupes »\n\n3. Dans « utilisateurs »:\n   - Écrire le nom d'utilisateurs\n   - Mettre le mot de passe 2x\n   - Cocher uniquement « l'utilisateur ne peut pas changer de mdp » et « le mot de passe n'expire jamais »\n\nCONFIGURATION ADMINISTRATEUR:\n\n4. Double clic gauche sur les profils admins\n\n5. Cliquer sur « membre de »\n\n6. Cliquer sur « ajouter » en bas à gauche\n\n7. Saisir « ADMINISTRATEURS »\n\n8. Cliquer sur appliquer\n\nCONFIGURATION WORKGROUP:\n\n9. Se déconnecter\n\n10. Windows + système\n\n11. Cliquer « domaine ou groupe de travail »\n\n12. Cliquer sur « modifier »\n\n13. Saisir « WORKGROUP » dans groupe de travail\n\n14. Appuyer sur « ok »\n\n15. Se déconnecter",
+                "category": "Système",
+                "images": []
+            },
+            {
+                "title": "Routeur VLAN",
+                "content": "PROCEDURE\nROUTEUR VLAN - Configuration Complète\n\n📌 Cette procédure contient 156 étapes détaillées pour configurer les VLANs.\n\nPhase 1 - Préparation (Étapes 1-20):\n- Allumer le PC Admin\n- Vérifier les alimentations\n- Brancher les câbles réseau\n- Réinitialiser routeur et switch\n- Configurer l'IP du PC\n- Accéder à l'interface d'administration\n\nPhase 2 - Configuration Routeur (Étapes 21-47):\n- Configurer les interfaces réseau\n- Configurer les VLAN sur le routeur (VLAN 10, 20, 30)\n- Configurer le DHCP pour chaque VLAN\n- Tester la connectivité\n\nPhase 3 - Configuration Switch (Étapes 48-134):\n- Accéder à l'interface ProSafe plus\n- Configurer les VLAN 802.1q\n- Assigner les ports aux VLANs\n- Configurer le Port PVID\n\nPhase 4 - Configuration Réseau (Étapes 135-156):\n- Configurer l'IP du switch\n- Tester l'accès aux interfaces\n- Configurer les paramètres réseau finaux\n\n✓ Pour les étapes détaillées, consulter la documentation complète",
+                "category": "Réseau",
+                "images": []
+            },
+            {
+                "title": "SRV-W11 (AD1)",
+                "content": "PROTOCOL - Windows Server 11 AD1\n\nCette procédure couvre la configuration complète d'un serveur Windows 11 avec:\n- Active Directory (AD)\n- Serveur DNS\n- Serveur DHCP\n- Stratégies de groupe\n\nPHASE 1 - Pré-Installation:\n- Activer le Bureau à distance\n- Désactiver la sécurité renforcée\n- Désactiver IPv6\n- Renommer le serveur\n- Faire la mise à jour Windows Update\n\nPHASE 2 - Installation AD/DNS/DHCP:\n- Ajouter des rôles et fonctionnalités\n- Sélectionner AD DS, DNS, DHCP\n\nPHASE 3 - Configuration du Contrôleur de Domaine:\n- Promouvoir le serveur\n- Ajouter une nouvelle forêt\n- Configurer le domaine (exemple: domaine.local)\n- Définir le mot de passe DSRM\n\nPHASE 4 - Configuration DNS:\n- Créer des zones de recherche\n- Configurer les zones inversées\n\nPHASE 5 - Création d'utilisateurs et groupes:\n- Créer des utilisateurs Active Directory\n- Créer des groupes d'utilisateurs\n\nPHASE 6 - Configuration DHCP:\n- Configurer les étendues DHCP\n- Assigner les plages d'adresses IP\n- Configurer les options (DNS, routeur)\n\nPHASE 7 - Intégration des machines clientes:\n- Joindre le domaine\n- Configurer le DNS client\n\nPHASE 8 - Stratégies de groupe:\n- Créer des objets de stratégie de groupe (GPO)\n- Configurer les paramètres utilisateur\n- Forcer la mise à jour (gpupdate /force)\n\n✓ Configuration complète permettant à tous les postes clients de rejoindre le domaine",
+                "category": "Active Directory",
+                "images": []
+            }
+        ];
+
+        let currentProcedureIndex = -1;
+
+        const categoryIcons = {
+            'Système': '⚙️',
+            'Réseau': '🌐',
+            'Monitoring': '📊',
+            'Active Directory': '👥',
+            'Sécurité': '🔒',
+            'Base de données': '🗄️'
+        };
+
+        function displayProcedures() {
+            const grid = document.getElementById('procedures-grid');
+            grid.innerHTML = '';
+
+            // Update procedure select options
+            const select = document.getElementById('procedureSelect');
+            if (select) {
+                select.innerHTML = '';
+                procedures.forEach((p, i) => {
+                    const opt = document.createElement('option');
+                    opt.value = i;
+                    opt.textContent = `${p.title} (${p.category})`;
+                    select.appendChild(opt);
+                });
+            }
+
+            procedures.forEach((procedure, index) => {
+                const icon = categoryIcons[procedure.category] || '📋';
+                const preview = procedure.content.substring(0, 150) + '...';
+
+                const card = document.createElement('div');
+                card.className = 'procedure-card';
+                card.innerHTML = `
+                    <h3>${icon} ${procedure.title}</h3>
+                    <span class="category">📁 ${procedure.category}</span>
+                    <div class="content-preview">${preview}</div>
+                    <button onclick="showProcedureDetail(${index})">📖 Lire la procédure</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Persist procedures to localStorage when images are added
+        function saveProceduresToStorage() {
+            try {
+                localStorage.setItem('procedures-data', JSON.stringify(procedures));
+            } catch (e) { console.warn('Storage error', e); }
+        }
+
+        function loadProceduresFromStorage() {
+            try {
+                const raw = localStorage.getItem('procedures-data');
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length > 0) procedures = parsed;
+                }
+            } catch (e) { console.warn('Failed to load procedures', e); }
+        }
+
+        // Handle image uploads for a selected procedure
+        const procedureImageUpload = document.getElementById('procedureImageUpload');
+        if (procedureImageUpload) {
+            procedureImageUpload.addEventListener('change', function(e) {
+                const idx = parseInt(document.getElementById('procedureSelect').value || '0', 10);
+                if (isNaN(idx)) return;
+                const files = Array.from(e.target.files || []);
+                const readerPromises = files.map(file => new Promise((res, rej) => {
+                    const reader = new FileReader();
+                    reader.onload = ev => res(ev.target.result);
+                    reader.onerror = rej;
+                    reader.readAsDataURL(file);
+                }));
+
+                Promise.all(readerPromises).then(imagesData => {
+                    procedures[idx].images = procedures[idx].images || [];
+                    procedures[idx].images.push(...imagesData);
+                    saveProceduresToStorage();
+                    alert('✅ Captures ajoutées à la procédure. Ouvrez-la pour voir les images.');
+                    e.target.value = '';
+                }).catch(err => {
+                    console.error(err);
+                    alert('Erreur lors de l\'import des images.');
+                });
+            });
+        }
+
+        function clearProcedureImages() {
+            const idx = parseInt(document.getElementById('procedureSelect').value || '0', 10);
+            if (isNaN(idx)) return;
+            if (!confirm('Supprimer toutes les captures pour cette procédure ?')) return;
+            procedures[idx].images = [];
+            saveProceduresToStorage();
+            alert('✅ Captures supprimées pour cette procédure.');
+        }
+
+        function showProcedureDetail(index) {
+            currentProcedureIndex = index;
+            const procedure = procedures[index];
+            const icon = categoryIcons[procedure.category] || '📋';
+            
+            document.getElementById('detail-title').innerHTML = `${icon} ${procedure.title}`;
+            document.getElementById('detail-category').innerHTML = `📁 Catégorie: ${procedure.category}`;
+            document.getElementById('detail-content').textContent = procedure.content;
+            
+            // Afficher les images si disponibles
+            const imagesSection = document.getElementById('detail-images-section');
+            const imagesContainer = document.getElementById('detail-images');
+            
+            if (procedure.images && procedure.images.length > 0) {
+                imagesSection.style.display = 'block';
+                imagesContainer.innerHTML = '';
+                
+                procedure.images.forEach((imgData, idx) => {
+                    const img = document.createElement('div');
+                    img.style.cssText = 'position: relative; border-radius: 8px; overflow: hidden; border: 2px solid rgba(0, 255, 0, 0.3); transition: all 0.3s;';
+                    img.innerHTML = `
+                        <img src="${imgData}" onclick="openImageFull('${imgData}')">
+                        <button onclick="downloadImage(${idx})">📥 Télécharger</button>
+                    `;
+                    imagesContainer.appendChild(img);
+                });
+            } else {
+                imagesSection.style.display = 'none';
+            }
+            
+            document.getElementById('procedure-detail-modal').classList.add('active');
+        }
+
+        function downloadProcedureText() {
+            if (currentProcedureIndex < 0) return;
+            const procedure = procedures[currentProcedureIndex];
+            const content = `PROCÉDURE TECHNIQUE\n${'='.repeat(50)}\n\nTitre: ${procedure.title}\nCatégorie: ${procedure.category}\nDate d'export: ${new Date().toLocaleDateString('fr-FR')}\n\n${'='.repeat(50)}\n\n${procedure.content}\n\n${'='.repeat(50)}\nDocument généré depuis le portfolio de Christian CAILLAT EVESQUE\n`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Procedure_${procedure.title.replace(/\s+/g, '_')}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadProcedurePDF() {
+            if (currentProcedureIndex < 0) return;
+            const procedure = procedures[currentProcedureIndex];
+            const content = `PROCÉDURE TECHNIQUE\n${'='.repeat(50)}\n\nTitre: ${procedure.title}\nCatégorie: ${procedure.category}\nDate d'export: ${new Date().toLocaleDateString('fr-FR')}\n\n${'='.repeat(50)}\n\n${procedure.content}`;
+            
+            // Créer un PDF simple en format texte
+            const blob = new Blob([content], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Procedure_${procedure.title.replace(/\s+/g, '_')}.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('📄 Téléchargement en cours...\nPour une meilleure qualité PDF, utilisez l\'option Imprimer et sélectionnez "Imprimer en PDF"');
+        }
+
+        function downloadImage(imageIndex) {
+            if (currentProcedureIndex < 0) return;
+            const procedure = procedures[currentProcedureIndex];
+            if (!procedure.images || imageIndex >= procedure.images.length) return;
+            
+            const link = document.createElement('a');
+            link.href = procedure.images[imageIndex];
+            link.download = `${procedure.title.replace(/\s+/g, '_')}_image_${imageIndex + 1}.png`;
+            link.click();
+        }
+
+        function openImageFull(imageSrc) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.95);
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            `;
+            modal.innerHTML = `
+                <div>
+                    <img src="${imageSrc}">
+                    <button onclick="this.parentElement.parentElement.remove()">✕ Fermer</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function printProcedure() {
+            if (currentProcedureIndex < 0) return;
+            const procedure = procedures[currentProcedureIndex];
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${procedure.title}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background: #fff; color: #000; }
+                        h1 { color: #00aa00; border-bottom: 3px solid #00aa00; padding-bottom: 10px; }
+                        .category { background-color: #f0f0f0; padding: 8px 15px; border-radius: 5px; display: inline-block; margin: 10px 0; }
+                        .content { background-color: #f9f9f9; padding: 15px; border-left: 4px solid #00aa00; margin: 20px 0; white-space: pre-wrap; font-family: 'Courier New', monospace; }
+                        .footer { margin-top: 30px; padding-top: 20px; border-top: 2px solid #ccc; font-size: 0.9em; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>📋 ${procedure.title}</h1>
+                    <div class="category">Catégorie: ${procedure.category}</div>
+                    <div class="content">${procedure.content}</div>
+                    <div class="footer">
+                        <p>Procédure générée depuis le portfolio de Christian CAILLAT EVESQUE</p>
+                        <p>Date: ${new Date().toLocaleDateString('fr-FR')} à ${new Date().toLocaleTimeString('fr-FR')}</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            setTimeout(() => printWindow.print(), 250);
+        }
+
+        function closeProcedureDetail() {
+            document.getElementById('procedure-detail-modal').classList.remove('active');
+        }
+
+        // Load procedures on page load (restore from localStorage if present)
+        window.addEventListener('load', function() {
+            loadProceduresFromStorage();
+            displayProcedures();
+        });
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('procedure-detail-modal');
+            if (event.target === modal) {
+                closeProcedureDetail();
+            }
+        });
+    </script>
+<script>
+// Génère des cercles animés pour l'arrière-plan
+const bg2 = document.querySelector('.animated-circles');
+if(bg) {
+    for(let i=0;i<18;i++) {
+        const s = document.createElement('span');
+        const size = Math.random()*80+40;
+        s.style.width = s.style.height = size+"px";
+        s.style.left = Math.random()*100+"vw";
+        s.style.bottom = (-Math.random()*40)+"vh";
+        s.style.animationDelay = (Math.random()*12)+"s";
+        s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+        bg.appendChild(s);
+    }
+}
+</script>
+    <button class="scroll-to-top" aria-label="Remonter en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="assets/portfolio-interact.js"></script>
+</body>
+</html>

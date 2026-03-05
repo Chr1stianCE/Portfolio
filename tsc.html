@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - Tableau de Compétences (TCS)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+    .burger-menu {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 2001;
+        margin-left: 10px;
+    }
+    .burger-menu span {
+        display: block;
+        width: 28px;
+        height: 4px;
+        margin: 4px 0;
+        background: #00ff00;
+        border-radius: 2px;
+        transition: 0.4s;
+    }
+    .burger-menu.open span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    .burger-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger-menu.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    @media (max-width: 900px) {
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(15,32,39,0.98);
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 80px 0 0 0;
+            height: 100vh;
+            width: 100vw;
+            transform: translateX(-100vw);
+            transition: transform 0.4s cubic-bezier(.77,0,.18,1);
+            z-index: 2000;
+        }
+        nav.nav-open {
+            transform: translateX(0);
+        }
+        .burger-menu {
+            display: flex;
+        }
+    }
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1);
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: none;
+    }
+    .scroll-to-top {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        background: #0f2027;
+        color: #00ff00;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        box-shadow: 0 2px 12px rgba(0,255,0,0.13);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 3000;
+    }
+    .scroll-to-top.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    </style>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: float 10s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        nav a, .dropdown {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            position: relative;
+        }
+        nav a:hover, .dropdown:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #00ff00;
+        }
+        .dropdown {
+            cursor: pointer;
+            background: none;
+            padding: 10px 15px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.95);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 255, 0, 0.2);
+            padding: 8px 16px;
+            z-index: 1000;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            top: calc(100% - 5px);
+            left: 0;
+            margin-top: 0;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            margin: 3px 0;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.5);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            padding: 80px 20px;
+        }
+        h1, h2, h3 {
+            color: #00ff00;
+            margin-top: 0;
+        }
+        .intro-section {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            padding: 30px;
+            border-radius: 10px;
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .intro-section p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #ddd;
+            margin: 10px 0;
+        }
+        .badge {
+            display: inline-block;
+            background-color: rgba(0, 255, 0, 0.15);
+            color: #00ff00;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+        .section-content {
+            margin: 30px 0;
+        }
+        .formation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .formation-card {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border: 2px solid rgba(0, 255, 0, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        .formation-card:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            transform: translateY(-5px);
+        }
+        .formation-card h4 {
+            color: #00ff00;
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+        .year {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .specialization {
+            color: #ccc;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        .competences-section {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            margin: 30px 0;
+        }
+        .competences-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .competence-tag {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 0, 0.05));
+            border: 1px solid rgba(0, 255, 0, 0.4);
+            color: #00ff00;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: default;
+        }
+        .competence-tag:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.3), rgba(0, 255, 0, 0.1));
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            transform: scale(1.05);
+        }
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .cert-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .cert-card:hover {
+            background: rgba(0, 0, 0, 0.6);
+            border-left-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        }
+        .cert-name {
+            color: #00ff00;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .cert-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .status-inprogress {
+            background-color: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
+        .status-planned {
+            background-color: rgba(33, 150, 243, 0.3);
+            color: #2196f3;
+            border: 1px solid rgba(33, 150, 243, 0.5);
+        }
+        .status-completed {
+            background-color: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .objective-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .objective-card:hover {
+            background: rgba(0, 0, 0, 0.6);
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.15);
+        }
+        .objective-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        .objective-title {
+            color: #00ff00;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        .debouches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .debouche-card {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.08) 0%, rgba(0, 0, 0, 0.2) 100%);
+            border: 1px solid rgba(0, 255, 0, 0.25);
+            padding: 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .debouche-card:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.15) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border-color: #00ff00;
+            box-shadow: 0 0 12px rgba(0, 255, 0, 0.25);
+            transform: translateY(-3px);
+        }
+        .debouche-title {
+            color: #00ff00;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .debouche-desc {
+            color: #bbb;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+    <body>
+            <style>
+                body { padding-top: 110px !important; }
+            </style>
+        <div class="animated-circles"></div>
+        <script>
+        // Animation bulles pour l'arrière-plan
+        const bg = document.querySelector('.animated-circles');
+        if(bg) {
+            for(let i=0;i<18;i++) {
+                const s = document.createElement('span');
+                const size = Math.random()*80+40;
+                s.style.width = s.style.height = size+"px";
+                s.style.left = Math.random()*100+"vw";
+                s.style.bottom = (-Math.random()*40)+"vh";
+                s.style.animationDelay = (Math.random()*12)+"s";
+                s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                bg.appendChild(s);
+            }
+        }
+        </script>
+    <div class="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <!-- Suppression du script de particules pour un affichage propre -->
+    
+    <div id="particles"></div>
+    <div class="animated-circles"></div>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+
+    <section class="container reveal">
+        <h1>📊 Tableau de Compétences SISR</h1>
+        <div class="intro-section">
+            <p><strong>BTS SIO — Option SISR (Solutions d'Infrastructure, Systèmes et Réseaux)</strong></p>
+            <p>Ce tableau synthétise les compétences, objectifs, parcours et débouchés du cursus, ainsi que les certifications visées.</p>
+            <p style="color: #00ff00; margin-top: 15px;"><strong>2 ans • Niveau 5 (Bac+2)</strong></p>
+        </div>
+
+        <div class="section-content">
+            <h2>🧠 Méthodologie d'apprentissage</h2>
+            <ul style="max-width:700px; margin:0 auto; text-align:left; font-size:1.08em;">
+                <li>Alternance entre théorie et pratique sur des cas concrets</li>
+                <li>Projets collaboratifs pour développer l'autonomie et l'esprit d'équipe</li>
+                <li>Utilisation d'outils professionnels (virtualisation, supervision, gestion de parc...)</li>
+                <li>Veille technologique et adaptation continue aux évolutions du secteur</li>
+            </ul>
+        </div>
+
+        <div class="section-content">
+            <h2>🎯 Objectifs de la formation</h2>
+            <ul style="max-width:700px; margin:0 auto; text-align:left; font-size:1.08em;">
+                <li>Gérer le patrimoine informatique</li>
+                <li>Répondre aux incidents et aux demandes</li>
+                <li>Développer la présence en ligne</li>
+                <li>Travailler en mode projet</li>
+                <li>Mettre à disposition un service IT</li>
+                <li>Développement professionnel</li>
+            </ul>
+        </div>
+
+        <div class="competences-section">
+            <h2>💡 Compétences développées</h2>
+            <div class="competences-tags">
+                <span class="competence-tag">Active Directory</span>
+                <span class="competence-tag">Configuration VLAN</span>
+                <span class="competence-tag">Hyper-V</span>
+                <span class="competence-tag">PROXMOX</span>
+                <span class="competence-tag">Déploiement GPO</span>
+                <span class="competence-tag">GLPI</span>
+                <span class="competence-tag">ZABBIX</span>
+                <span class="competence-tag">Cisco Packet Tracer</span>
+                <span class="competence-tag">Exchange Server</span>
+                <span class="competence-tag">Maintenance PC</span>
+                <span class="competence-tag">Configuration WiFi</span>
+                <span class="competence-tag">Sécurité Réseau</span>
+            </div>
+        </div>
+
+        <div class="section-content">
+            <h2>📂 Réalisations professionnelles</h2>
+            <h3>En cours de formation</h3>
+            <ul>
+                <li>
+                    <strong>Infrastructure Virtualisée sous Proxmox</strong><br>
+                    <a href="mes-procedures.html#proxmox" target="_blank">Procédure de virtualisation</a>
+                </li>
+                <li>
+                    <strong>Modélisation & Documentation</strong><br>
+                    <a href="mes-procedures.html#osi" target="_blank">Schémas réseau, documentation technique, vulgarisation du modèle OSI</a>
+                </li>
+            </ul>
+            <h3>En milieu professionnel - Première année</h3>
+            <ul>
+                <li>
+                    <strong>Configuration Réseau : VLAN, Switch & Routeur</strong><br>
+                    <a href="mes-procedures.html#vlan" target="_blank">Procédure Routeur VLAN</a>
+                </li>
+                <li>
+                    <strong>Ajout d'une machine client dans un domaine</strong><br>
+                    <a href="mes-procedures.html#ajout-machine" target="_blank">Procédure Ajout d'une machine client dans un domaine</a>
+                </li>
+                <li>
+                    <strong>Profil Windows</strong><br>
+                    <a href="mes-procedures.html#profil-windows" target="_blank">Procédure Profil Windows</a>
+                </li>
+            </ul>
+            <h3>En milieu professionnel - Seconde année</h3>
+            <ul>
+                <li>
+                    <strong>Supervision & Monitoring avec Zabbix</strong><br>
+                    <a href="mes-procedures.html#zabbix" target="_blank">Procédure Installation Zabbix</a>
+                </li>
+                <li>
+                    <strong>Configuration complète d’un serveur Windows Server (AD, DNS, DHCP)</strong><br>
+                    <a href="mes-procedures.html#srv-w11" target="_blank">Procédure SRV-W11 (AD1)</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+
+        <div class="section-content">
+            <h2>🏆 Certifications visées</h2>
+            <div class="certifications-grid">
+                <div class="cert-card">
+                    <div class="cert-name">🔵 Cisco CCNA</div>
+                    <span class="cert-status status-inprogress">En cours</span>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-name">🔐 Stormshield Network Security</div>
+                    <span class="cert-status status-planned">Prévu</span>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-name">☁️ VMware vSphere</div>
+                    <span class="cert-status status-planned">Prévu</span>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-name">🐧 Linux+</div>
+                    <span class="cert-status status-planned">Prévu</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-content">
+            <h2>💼 Débouchés professionnels</h2>
+            <div class="debouches-grid">
+                <div class="debouche-card">
+                    <div class="debouche-title">⚙️ Administrateur Systèmes</div>
+                    <div class="debouche-desc">Gestion complète de l'infrastructure IT, maintenance serveurs et équipements réseau</div>
+                </div>
+                <div class="debouche-card">
+                    <div class="debouche-title">🔧 Technicien Infrastructure</div>
+                    <div class="debouche-desc">Maintenance et évolution des équipements, support technique</div>
+                </div>
+                <div class="debouche-card">
+                    <div class="debouche-title">👔 Responsable Informatique</div>
+                    <div class="debouche-desc">Management d'équipe et stratégie IT au niveau d'une PME</div>
+                </div>
+                <div class="debouche-card">
+                    <div class="debouche-title">🛠️ Technicien Maintenance</div>
+                    <div class="debouche-desc">Support utilisateurs et dépannage des systèmes et postes</div>
+                </div>
+                <div class="debouche-card">
+                    <div class="debouche-title">💡 Consultant Systèmes</div>
+                    <div class="debouche-desc">Expertise technique et conseils en infrastructure IT</div>
+                </div>
+                <div class="debouche-card">
+                    <div class="debouche-title">🔒 Spécialiste Sécurité</div>
+                    <div class="debouche-desc">Protection et sécurisation des systèmes et données</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-content">
+            <h2>📥 Télécharger le Tableau de Compétences</h2>
+            <div style="background: linear-gradient(135deg, rgba(0, 255, 0, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%); border: 2px solid rgba(0, 255, 0, 0.3); border-radius: 8px; padding: 30px; text-align: center; margin: 20px 0;">
+                    <a href="TCS_session_2025_SISR.xlsx" download="TCS_session_2025_SISR.xlsx" class="hero-btn" style="margin-top:10px;">📥 Télécharger le tableau</a>
+                </div>
+</script>
+    <button class="scroll-to-top" aria-label="Remonter en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="assets/portfolio-interact.js"></script>
+</body>
+</html>

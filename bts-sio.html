@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - BTS SIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+    .burger-menu {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 2001;
+        margin-left: 10px;
+    }
+    .burger-menu span {
+        display: block;
+        width: 28px;
+        height: 4px;
+        margin: 4px 0;
+        background: #00ff00;
+        border-radius: 2px;
+        transition: 0.4s;
+    }
+    .burger-menu.open span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    .burger-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger-menu.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    @media (max-width: 900px) {
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(15,32,39,0.98);
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 80px 0 0 0;
+            height: 100vh;
+            width: 100vw;
+            transform: translateX(-100vw);
+            transition: transform 0.4s cubic-bezier(.77,0,.18,1);
+            z-index: 2000;
+        }
+        nav.nav-open {
+            transform: translateX(0);
+        }
+        .burger-menu {
+            display: flex;
+        }
+    }
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1);
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: none;
+    }
+    .scroll-to-top {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        background: #0f2027;
+        color: #00ff00;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        box-shadow: 0 2px 12px rgba(0,255,0,0.13);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 3000;
+    }
+    .scroll-to-top.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    </style>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(15,32,39,0.97);
+            padding: 18px 0;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1100;
+        }
+        nav a, .dropdown {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0,255,0,0.15);
+            display: inline-block;
+            position: relative;
+            box-shadow: 0 1px 4px rgba(0,255,0,0.05);
+            background: none;
+        }
+        nav a:hover, .dropdown:hover {
+            background-color: rgba(0,255,0,0.12);
+            color: #00ff00;
+            box-shadow: 0 2px 8px rgba(0,255,0,0.15);
+        }
+        .dropdown {
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            min-width: 220px;
+            box-shadow: 0px 8px 16px 0px rgba(0,255,0,0.18);
+            padding: 10px 18px;
+            z-index: 1200;
+            border-radius: 8px;
+            border: 1px solid rgba(0,255,0,0.25);
+            top: calc(100% - 5px);
+            left: 0;
+            margin-top: 0;
+            pointer-events: auto;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            pointer-events: auto;
+        }
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            margin: 3px 0;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(0,255,0,0.18);
+            color: #00ff00;
+            border: 1px solid rgba(0,255,0,0.35);
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 110px 16px 0 16px;
+            box-sizing: border-box;
+        }
+        section {
+            padding: 0 0 40px 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 80px 4px 0 4px;
+            }
+            #bts-sio {
+                padding: 18px 6px 12px 6px;
+            }
+        }
+        #bts-sio {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,255,0,0.10);
+            padding: 48px 32px 32px 32px;
+        }
+        h1, h2 {
+            color: #00ff00;
+        }
+        h3 {
+            color: #00ff00;
+        }
+        ul, ol {
+            color: #fff;
+            font-size: 1.08em;
+            margin-bottom: 18px;
+        }
+        .cv-button {
+            background: #00ff00;
+            color: #222;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 8px 18px;
+            text-decoration: none;
+            margin-right: 8px;
+            transition: background 0.2s, color 0.2s;
+            border: none;
+            display: inline-block;
+        }
+        .cv-button:hover {
+            background: #fff;
+            color: #00ff00;
+        }
+        .osi-section {
+            margin-top: 30px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 14px;
+            padding: 28px 18px;
+            text-align: center;
+            box-shadow: 0 2px 16px rgba(0,255,0,0.10);
+        }
+        .osi-section img {
+            max-width: 420px;
+            width: 100%;
+            border:2px solid #00ff00;
+            border-radius:8px;
+            background:#fff;
+            cursor:pointer;
+            margin-top:12px;
+            box-shadow:0 2px 12px rgba(0,255,0,0.15);
+        }
+        @media (max-width: 900px) {
+            #bts-sio > div[style^="display:flex"] {
+                flex-direction: column;
+                gap: 10px !important;
+            }
+            #bts-sio > div[style^="display:grid"] {
+                grid-template-columns: 1fr;
+            }
+            #bts-sio > div[style^="display:flex; gap:20px;"] {
+                flex-direction: column;
+                gap: 10px !important;
+            }
+        }
+    </style>
+</head>
+    <body>
+            <style>
+                body { padding-top: 110px !important; }
+            </style>
+        <div id="particles"></div>
+        <div class="animated-circles"></div>
+        <script>
+        // Animation bulles pour l'arrière-plan
+        const bg = document.querySelector('.animated-circles');
+        if(bg) {
+            for(let i=0;i<18;i++) {
+                const s = document.createElement('span');
+                const size = Math.random()*80+40;
+                s.style.width = s.style.height = size+"px";
+                s.style.left = Math.random()*100+"vw";
+                s.style.bottom = (-Math.random()*40)+"vh";
+                s.style.animationDelay = (Math.random()*12)+"s";
+                s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                bg.appendChild(s);
+            }
+        }
+        </script>
+        <div class="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+
+    <section id="bts-sio" class="container reveal" style="margin-top:0;">
+        <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap; margin-top:20px;">
+            <div style="flex:1; min-width:260px;">
+                <img src="assets/ifc.png" alt="IFC - logo" style="max-width:220px; border-radius:8px; border:2px solid rgba(0,255,0,0.12);">
+            </div>
+            <div style="flex:2; min-width:320px;">
+                <h1>🎓 BTS Services Informatiques aux Organisations — Option SISR</h1>
+                <p style="color:#00ff00; font-weight:600;">Période : 2025 - 2027 • École : IFC / Parcours : SISR (Solutions d'Infrastructure, Systèmes et Réseaux)</p>
+                <p>Le BTS SIO option SISR forme aux métiers de l'infrastructure et de l'administration système et réseau. Le cursus couvre : l'administration d'Active Directory, la configuration réseau (VLAN, routage), la virtualisation, la supervision (Zabbix), la sécurité des services réseau et la documentation opérationnelle.</p>
+                <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <a href="Christian Caillat evesque.pdf" class="cv-button" target="_blank">📥 Télécharger CV</a>
+                    <a href="mes-procedures.html" class="cv-button">📋 Procédures</a>
+                    <a href="mes-stages.html" class="cv-button">🏆 Mes Stages</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="objectifs" style="margin-top:30px; display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+            <div>
+                <h2>Objectifs pédagogiques</h2>
+                <ul>
+                    <li>Maîtriser l'administration des systèmes Windows et Linux</li>
+                    <li>Concevoir et gérer des réseaux (VLAN, commutateurs, routage)</li>
+                    <li>Déployer et maintenir des services réseau (DNS, DHCP, AD)</li>
+                    <li>Superviser des infrastructures (Zabbix) et gérer la virtualisation</li>
+                    <li>Appliquer des bonnes pratiques de sécurité et des procédures opérationnelles</li>
+                </ul>
+
+                <h3>Compétences & Technologies</h3>
+                <p><strong>Outils & Protocoles :</strong> Active Directory, Zabbix, Exchange, VMware/Hyper-V, Cisco (config switch/router), DHCP, DNS</p>
+                <p><strong>Domaines :</strong> Administration système • Réseaux • Virtualisation • Supervision • Sécurité • Documentation</p>
+            </div>
+
+            <div>
+                <h2>Programme & Modules clés</h2>
+                <ol>
+                    <li>Administration des systèmes et gestion des comptes (Active Directory)</li>
+                    <li>Réseaux et services (VLAN, routage, DHCP, DNS)</li>
+                    <li>Virtualisation et gestion de serveurs</li>
+                    <li>Supervision & Monitoring (Zabbix)</li>
+                    <li>Sécurité des infrastructures et bonnes pratiques</li>
+                    <li>Projets encadrés et mise en situation professionnelle</li>
+                </ol>
+
+                <h3>Projets pratiques</h3>
+                <p>Chaque année, des projets permettent d'appliquer les compétences en contexte réel : déploiement d'un contrôleur de domaine, configuration d'un routeur/VLAN, mise en place d'une supervision Zabbix et rédaction des procédures opérationnelles.</p>
+            </div>
+        </div>
+
+        <div id="competences" class="osi-section">
+            <h2>Modèle OSI — Référence pédagogique</h2>
+            <p>Le modèle OSI est utilisé durant la formation pour expliquer les couches réseau et les diagnostics. Cliquez sur l'image pour l'ouvrir en grand.</p>
+            <img src="assets/osi 2.png" alt="Modèle OSI" onclick="window.open('assets/osi 2.png','_blank')">
+        </div>
+
+        <div id="debouches" style="margin-top:30px; display:flex; gap:20px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:220px; background:rgba(0,0,0,0.4); padding:16px; border-radius:8px; border:1px solid rgba(0,255,0,0.08);">
+                <h3 style="color:#00ff00; margin-top:0;">Évaluations</h3>
+                <p>Contrôles continus, projets de groupe, rapport écrit et soutenance finale. Les compétences sont évaluées sur la mise en œuvre technique et la qualité des livrables (procédures, documentations, démonstrations).</p>
+            </div>
+
+            <div style="flex:1; min-width:220px; background:rgba(0,0,0,0.4); padding:16px; border-radius:8px; border:1px solid rgba(0,255,0,0.08);">
+                <h3 style="color:#00ff00; margin-top:0;">Débouchés</h3>
+                <p>Technicien systèmes et réseaux, administrateur réseau, support technique, technicien de supervision, assistant administrateur infrastructure.</p>
+            </div>
+        </div>
+    
+        
+    }
+}
+</script>
+    <button class="scroll-to-top" aria-label="Remonter en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="assets/portfolio-interact.js"></script>
+<script>
+// Génère des cercles animés pour l'arrière-plan
+const bg = document.querySelector('.animated-circles');
+if(bg) {
+    for(let i=0;i<18;i++) {
+        const s = document.createElement('span');
+        const size = Math.random()*80+40;
+        s.style.width = s.style.height = size+"px";
+        s.style.left = Math.random()*100+"vw";
+        s.style.bottom = (-Math.random()*40)+"vh";
+        s.style.animationDelay = (Math.random()*12)+"s";
+        s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+        bg.appendChild(s);
+    }
+}
+</script>
+</body>
+</html>

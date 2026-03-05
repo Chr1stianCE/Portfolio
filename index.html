@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - Accueil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+    <div class="animated-circles"></div>
+    <header class="portfolio-header">
+        <button class="mobile-menu-toggle" aria-label="Ouvrir le menu">☰</button>
+        <nav class="portfolio-nav mobile-closed">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <a href="apropos.html" class="dropdown-main">ℹ️ À propos</a>
+                <span>▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <a href="mes-projets.html" class="dropdown-main">📁 Projets</a>
+                <span>▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+    <div id="particles"></div>
+    <!-- Génération des cercles animés pour l'arrière-plan -->
+    <script>
+    const bg = document.querySelector('.animated-circles');
+    if(bg) {
+        for(let i=0;i<18;i++) {
+            const s = document.createElement('span');
+            const size = Math.random()*80+40;
+            s.style.width = s.style.height = size+"px";
+            s.style.left = Math.random()*100+"vw";
+            s.style.bottom = (-Math.random()*40)+"vh";
+            s.style.animationDelay = (Math.random()*12)+"s";
+            s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+            bg.appendChild(s);
+        }
+    }
+    </script>
+    <main>
+        <section class="hero-section reveal">
+            <div class="hero-card">
+                <h1>Christian CAILLAT EVESQUE</h1>
+                        <div class="subtitle">Étudiant en BTS SIO SISR</div>
+                        <div class="desc">Je m'appelle Christian Caillat Evesque, étudiant en BTS Services Informatiques aux Organisations, option SISR (Solutions d'Infrastructure, Systèmes et Réseaux). Passionné par l'administration système, la cybersécurité et la gestion d'infrastructures, je souhaite devenir administrateur réseau ou technicien système et sécurité.</div>
+                        <div class="contact"><i class="fa-solid fa-envelope"></i> gayou.christian@gmail.com &nbsp;|&nbsp; <i class="fa-solid fa-location-dot"></i> Marseille, France</div>
+                        <div class="hero-actions">
+                            <a href="Christian Caillat evesque.pdf" class="hero-btn">📥 Télécharger CV</a>
+                            <a href="mes-procedures.html" class="hero-btn">📋 Procédures</a>
+                            <a href="mes-projets.html" class="hero-btn">📊 Projets</a>
+                        </div>
+                           <div class="hero-socials">
+                               <a href="mailto:gayou.christian@gmail.com" title="Mail"><i class="fa-solid fa-envelope"></i></a>
+                               <a href="https://www.linkedin.com/in/christian-caillat-evesque/" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                               <a href="https://github.com/ChristianCaillat" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                           </div>
+                    </div>
+                </section>
+            <!-- Ajout d'un wrapper pour sections pour une meilleure adaptation mobile -->
+            <div class="main-wrapper">
+                <section id="skills" class="short-section reveal">
+                    <h2><i class="fa-solid fa-laptop-code"></i> Compétences</h2>
+                    <ul class="skills-list">
+                        <li>Administration systèmes & réseaux</li>
+                        <li>Cybersécurité</li>
+                        <li>Virtualisation (VMware, Hyper-V)</li>
+                        <li>Linux & Windows Server</li>
+                        <li>Automatisation (scripts, PowerShell, Python)</li>
+                    </ul>
+                </section>
+                <section id="projects" class="short-section reveal">
+                    <h2><i class="fa-solid fa-diagram-project"></i> Projets</h2>
+                    <ul class="projects-list">
+                        <li>Déploiement d'un serveur Active Directory</li>
+                        <li>Installation d'une solution de supervision (Zabbix)</li>
+                        <li>Création d'un réseau VLAN sécurisé</li>
+                    </ul>
+                    <a href="mes-projets.html" class="hero-btn">Voir tous les projets</a>
+                </section>
+                <section id="procedures" class="short-section reveal">
+                    <h2><i class="fa-solid fa-list-check"></i> Procédures</h2>
+                    <ul class="procedures-list">
+                        <li>Ajout d'une machine au domaine</li>
+                        <li>Installation de Zabbix</li>
+                        <li>Configuration d'un profil Windows</li>
+                    </ul>
+                    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin: 18px 0;">
+                        <a href="Christian Caillat evesque.pdf" class="hero-btn">📄 Télécharger le CV</a>
+                        <a href="mes-projets.html" class="hero-btn">📊 Mes Projets</a>
+                        <a href="mes-procedures.html" class="hero-btn">📋 Procédures</a>
+                        <a href="mes-stages.html" class="hero-btn">🏆 Mes Stages</a>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin-top: 10px;">
+                        <a href="mes-procedures.html" class="hero-btn">Voir toutes les procédures</a>
+                    </div>
+                </section>
+                <section id="contact" class="short-section reveal">
+                    <h2><i class="fa-solid fa-envelope"></i> Contact</h2>
+                    <p>Pour toute question ou opportunité, contactez-moi :</p>
+                    <a href="mailto:gayou.christian@gmail.com" class="hero-btn">Envoyer un mail</a>
+                </section>
+            </div>
+            </main>
+            <footer></footer>
+            <nav class="floating-menu">
+                <a href="#hero" title="Accueil"><i class="fa-solid fa-house"></i></a>
+                <a href="#skills" title="Compétences"><i class="fa-solid fa-laptop-code"></i></a>
+                <a href="#projects" title="Projets"><i class="fa-solid fa-diagram-project"></i></a>
+                <a href="#procedures" title="Procédures"><i class="fa-solid fa-list-check"></i></a>
+                <a href="#contact" title="Contact"><i class="fa-solid fa-envelope"></i></a>
+            </nav>
+            <!-- Fin du wrapper -->
+            <script src="assets/portfolio-interact.js"></script>
+            <script>
+            // Menu mobile hamburger
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('.portfolio-nav');
+            menuToggle.addEventListener('click', function() {
+                if(nav.classList.contains('mobile-closed')) {
+                    nav.classList.remove('mobile-closed');
+                    nav.classList.add('mobile-open');
+                    menuToggle.innerHTML = '✖';
+                } else {
+                    nav.classList.remove('mobile-open');
+                    nav.classList.add('mobile-closed');
+                    menuToggle.innerHTML = '☰';
+                }
+            });
+            // Fermer menu mobile si on clique en dehors
+            document.addEventListener('click', function(e) {
+                if(window.innerWidth <= 700 && nav.classList.contains('mobile-open')) {
+                    if(!nav.contains(e.target) && !menuToggle.contains(e.target)) {
+                        nav.classList.remove('mobile-open');
+                        nav.classList.add('mobile-closed');
+                        menuToggle.innerHTML = '☰';
+                    }
+                }
+            });
+            </script>
+        </body>
+        </html>
+

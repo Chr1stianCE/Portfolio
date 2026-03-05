@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Christian CAILLAT EVESQUE - Projets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/animated-bg.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+    .burger-menu {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 2001;
+        margin-left: 10px;
+    }
+    .burger-menu span {
+        display: block;
+        width: 28px;
+        height: 4px;
+        margin: 4px 0;
+        background: #00ff00;
+        border-radius: 2px;
+        transition: 0.4s;
+    }
+    .burger-menu.open span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    .burger-menu.open span:nth-child(2) {
+        opacity: 0;
+    }
+    .burger-menu.open span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+    @media (max-width: 900px) {
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(15,32,39,0.98);
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 80px 0 0 0;
+            height: 100vh;
+            width: 100vw;
+            transform: translateX(-100vw);
+            transition: transform 0.4s cubic-bezier(.77,0,.18,1);
+            z-index: 2000;
+        }
+        nav.nav-open {
+            transform: translateX(0);
+        }
+        .burger-menu {
+            display: flex;
+        }
+    }
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s cubic-bezier(.77,0,.18,1), transform 0.7s cubic-bezier(.77,0,.18,1);
+    }
+    .reveal.visible {
+        opacity: 1;
+        transform: none;
+    }
+    .scroll-to-top {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        background: #0f2027;
+        color: #00ff00;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.7rem;
+        box-shadow: 0 2px 12px rgba(0,255,0,0.13);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 3000;
+    }
+    .scroll-to-top.show {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    </style>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f2027 0%, #2c5364 100%);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: float 10s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        nav a, .dropdown {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            position: relative;
+        }
+        nav a:hover, .dropdown:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #00ff00;
+        }
+        .dropdown {
+            cursor: pointer;
+            background: none;
+            padding: 10px 15px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.95);
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 255, 0, 0.2);
+            padding: 8px 16px;
+            z-index: 1000;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            top: calc(100% - 5px);
+            left: 0;
+            margin-top: 0;
+            pointer-events: auto;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            pointer-events: auto;
+        }
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            margin: 3px 0;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            transition: all 0.3s;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid rgba(0, 255, 0, 0.5);
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            padding: 80px 0;
+            min-height: 100vh;
+        }
+        #projets {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        h1, h2 {
+            color: #00ff00;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            text-align: center;
+        }
+        .tabs {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              gap: 0;
+              margin-bottom: 30px;
+              border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+              width: 100%;
+              max-width: 420px;
+              margin-left: auto;
+              margin-right: auto;
+              background: rgba(0,0,0,0.7);
+              border-radius: 8px 8px 0 0;
+        }
+        .tab-button {
+              background: none;
+              border: none;
+              color: #fff;
+              padding: 14px 38px;
+              cursor: pointer;
+              font-weight: 500;
+              border-radius: 0;
+              transition: all 0.3s;
+              font-size: 1.1em;
+              outline: none;
+              border-bottom: 3px solid transparent;
+        }
+        .tab-button.active {
+              background-color: #111;
+              color: #00ff00;
+              border-bottom: 3px solid #00ff00;
+              z-index: 1;
+        }
+        .tab-button:hover {
+              background-color: rgba(0,255,0,0.08);
+              color: #00ff00;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+    <body>
+                <style>
+                    body { padding-top: 110px !important; }
+                </style>
+            <div class="animated-circles"></div>
+            <script>
+            // Animation bulles pour l'arrière-plan
+            const bg = document.querySelector('.animated-circles');
+            if(bg) {
+                for(let i=0;i<18;i++) {
+                    const s = document.createElement('span');
+                    const size = Math.random()*80+40;
+                    s.style.width = s.style.height = size+"px";
+                    s.style.left = Math.random()*100+"vw";
+                    s.style.bottom = (-Math.random()*40)+"vh";
+                    s.style.animationDelay = (Math.random()*12)+"s";
+                    s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+                    bg.appendChild(s);
+                }
+            }
+            </script>
+        <div id="particles"></div>
+        <div class="animated-circles"></div>
+    <div class="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div id="particles"></div>
+    <div id="particles"></div>
+    <div class="animated-circles"></div>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">� Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+
+    <section id="projets" class="container reveal">
+        <h2>Mes Projets</h2>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('mes-projets-content')">Mes Projets</button>
+            <button class="tab-button" onclick="switchTab('procedures-content')">Mes Procédures</button>
+        </div>
+
+        <div id="mes-projets-content" class="tab-content active">
+            <h3>Explorez mon parcours</h3>
+            <div class="projects">
+                <div class="project-card">
+                    <img src="assets/ifc.svg" alt="Logo IFC" style="width:60px;height:60px;display:block;margin:0 auto 12px auto;filter:drop-shadow(0 0 6px #00ff00cc);background:#fff;border-radius:50%;padding:8px;" />
+                    <h4>Formation BTS SIO</h4>
+                    <p>Découvrez le parcours BTS Services Informatiques aux Organisations</p>
+                </div>
+                <div class="project-card">
+                    <h4>Projets Techniques</h4>
+                    <p>Explorez mes réalisations en infrastructure et réseaux</p>
+                </div>
+                <div class="project-card">
+                    <h4>Veilles Technologiques</h4>
+                    <p>Suivez mes analyses des dernières innovations IT</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="procedures-content" class="tab-content">
+            <h3>Mes Procédures</h3>
+            <p>Documentation des procédures techniques et processus...</p>
+        </div>
+    <header class="portfolio-header">
+        <nav class="portfolio-nav">
+            <a href="index.html">🏠 Accueil</a>
+            <div class="dropdown">
+                <span>ℹ️ À propos ▼</span>
+                <div class="dropdown-content">
+                    <a href="apropos.html#presentation">👤 Présentation</a>
+                    <a href="mes-stages.html">🏆 Mes Stages</a>
+                </div>
+            </div>
+            <a href="tsc.html">💻 TCS</a>
+            <a href="bts-sio.html">🎓 BTS SIO</a>
+            <div class="dropdown">
+                <span>📁 Projets ▼</span>
+                <div class="dropdown-content">
+                    <a href="mes-projets.html">📊 Mes Projets</a>
+                    <a href="mes-procedures.html">📋 Mes Procédures</a>
+                </div>
+            </div>
+            <a href="veille.html">👁️ Veilles</a>
+        </nav>
+    </header>
+            particle.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Tab switching
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+<script>
+// Génère des cercles animés pour l'arrière-plan
+const bg1 = document.querySelector('.animated-circles');
+if(bg) {
+    for(let i=0;i<18;i++) {
+        const s = document.createElement('span');
+        const size = Math.random()*80+40;
+        s.style.width = s.style.height = size+"px";
+        s.style.left = Math.random()*100+"vw";
+        s.style.bottom = (-Math.random()*40)+"vh";
+        s.style.animationDelay = (Math.random()*12)+"s";
+        s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+        bg.appendChild(s);
+    }
+}
+</script>
+    <button class="scroll-to-top" aria-label="Remonter en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <script src="assets/portfolio-interact.js"></script>
+<script>
+const bg2 = document.querySelector('.animated-circles');
+if(bg) {
+    for(let i=0;i<18;i++) {
+        const s = document.createElement('span');
+        const size = Math.random()*80+40;
+        s.style.width = s.style.height = size+"px";
+        s.style.left = Math.random()*100+"vw";
+        s.style.bottom = (-Math.random()*40)+"vh";
+        s.style.animationDelay = (Math.random()*12)+"s";
+        s.style.background = 'radial-gradient(circle at 60% 40%, #00ff00 60%, transparent 100%)';
+        bg.appendChild(s);
+    }
+}
+</script>
+</body>
+</html>
